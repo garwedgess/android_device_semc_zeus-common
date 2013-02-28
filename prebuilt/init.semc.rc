@@ -1,10 +1,23 @@
 import init.semc.usb.rc
 
-on early-boot
-    #Run pre_hw_config.sh before entering charge only mode.
-    exec /system/bin/sh /system/etc/pre_hw_config.sh
-    #offline charing
-    exec /system/bin/chargemon
+on init
+    mkdir /storage 0555 root root
+    mkdir /storage/primary 0555 root root
+    mkdir /storage/primary/legacy 0555 root root
+    mkdir /storage/usbdisk 0775 system system
+
+    export EXTERNAL_STORAGE /storage/primary/legacy
+
+    # Support legacy paths
+    symlink /storage/primary/legacy /sdcard
+    symlink /storage/primary/legacy /mnt/sdcard
+    symlink /storage/primary/legacy /storage/sdcard0
+    symlink /mnt/shell/primary/0 /storage/primary/legacy
+    symlink /storage/usbdisk /usbdisk
+    symlink /storage/usbdisk /mnt/usbdisk
+
+on fs
+    mount_all /fstab.semc
 
 on post-fs-data
     mkdir /data/misc/wifi 0770 wifi wifi
@@ -17,16 +30,13 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
-on fs
-   mount_all /fstab.semc
+on early-boot
+    #Run pre_hw_config.sh before entering charge only mode.
+    exec /system/bin/sh /system/etc/pre_hw_config.sh
 
-on early-init
-    export EXTERNAL_STORAGE /storage/sdcard0
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
+    # Start the offline charging (This blocks booting further in some cases)
+    exec /system/bin/chargemon
+
 
 on boot
     #radio fix
