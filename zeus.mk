@@ -17,6 +17,7 @@
 
 DEVICE_PACKAGE_OVERLAYS += device/semc/zeus-common/overlay
 
+# Wifi AP
 PRODUCT_PACKAGES += \
     hostapd
 
@@ -26,13 +27,13 @@ PRODUCT_COPY_FILES += \
 
 # Init files
 PRODUCT_COPY_FILES += \
-    device/semc/msm7x30-common/prebuilt/fillers:root/filler2 \
     device/semc/zeus-common/prebuilt/init.semc.rc:root/init.semc.rc
 
 # Touchpad Activator apk - Thanks @Farenheith -- full credits
 PRODUCT_COPY_FILES += \
     device/semc/zeus-common/prebuilt/TouchpadActivator_V_1_3.apk:system/app/TouchpadActivator_V_1_3.apk
 
+# Common device properties
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     com.qc.hdmi_out=false
