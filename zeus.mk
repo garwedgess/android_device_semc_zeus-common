@@ -29,6 +29,9 @@ PRODUCT_COPY_FILES += \
     device/semc/msm7x30-common/prebuilt/fillers:root/filler2 \
     device/semc/zeus-common/prebuilt/init.semc.rc:root/init.semc.rc
 
+# Touchpad Activator apk - Thanks @Farenheith -- full credits
+PRODUCT_COPY_FILES += \
+    device/semc/zeus-common/prebuilt/TouchpadActivator_V_1_3.apk:system/app/TouchpadActivator_V_1_3.apk
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
